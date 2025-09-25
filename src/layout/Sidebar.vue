@@ -1,9 +1,18 @@
-<style scoped></style>
+<style scoped>
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.hide-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+</style>
 
 <template>
-  <div class="w-[25%] p-[24px]">
+  <div class="flex-1 p-[24px]">
     <div
-      class="bg-white w-[100%] h-[100%] rounded-[8px] p-[20px] shadow-[0_2px_12px_rgba(0,0,0,0.08)]"
+      class="flex-col bg-white w-[100%] rounded-[8px] p-[20px] shadow-[0_2px_12px_rgba(0,0,0,0.08)]"
     >
       <div class="font-bold text-[16px] mb-[16px]">⭐ 오늘의 추천 장소</div>
       <div class="bg-[#f8f9ff] rounded-[12px] p-[16px] mb-[20px]">
@@ -25,7 +34,11 @@
       </div>
 
       <!-- <Recommendlist :currentStation="currentStation" /> -->
-      <Recommendlist v-if="currentStation" :currentStation="currentStation" />
+      <Recommendlist
+        v-if="currentStation"
+        :currentStation="currentStation"
+        class="flex-1 hide-scrollbar"
+      />
     </div>
   </div>
 </template>

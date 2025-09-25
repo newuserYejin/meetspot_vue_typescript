@@ -1,7 +1,7 @@
 <style scoped></style>
 
 <template>
-  <div class="py-[20px] px-[24px] h-100%">
+  <div class="py-[20px] px-[24px] h-100% max-w-[1200px] mx-auto">
     <div class="flex-col">
       <!-- title -->
       <div class="flex items-center gap-[10px] p-[20px] pb-[16px]">
@@ -9,7 +9,7 @@
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
           fill="currentColor"
-          class="size-12 bg-[#d63384] fill-white p-[8px] rounded-[5px]"
+          class="size-10 bg-[#d63384] fill-white p-[8px] rounded-[5px]"
         >
           <path
             fill-rule="evenodd"
@@ -24,10 +24,12 @@
       </div>
 
       <div
-        class="h-[500px] w-[100%] overflow-y-auto overflow-x-hidden flex-col rounded-[18px] border-[1px] border-[rgba(0,0,0,0.04)] shadow-[0_4px_20px_rgba(0,0,0,0.06)]"
+        class="h-[500px] w-[100%] bg-white overflow-y-auto overflow-x-hidden flex-col rounded-[18px] border-[1px] border-[rgba(0,0,0,0.04)] shadow-[0_4px_20px_rgba(0,0,0,0.06)]"
       >
         <!-- 탭 -->
-        <div class="border-b-[rgba(0,0,0,0.06)] border-b-[1px] p-[20px]">
+        <div
+          class="border-b-[rgba(0,0,0,0.06)] bg-transparent border-b-[1px] p-[20px]"
+        >
           <div
             class="text-[#9c27b0] border-b-[#9c27b0] border-b-[3px] font-bold cursor-pointer w-fit text-[0.95em] px-[24px] py-[16px] min-h-[56px]"
           >
@@ -36,14 +38,14 @@
         </div>
 
         <!-- 콘텐츠 영역 -->
-        <div class="p-[20px] flex-col">
+        <div class="p-[20px] flex-col bg-transparent">
           <div class="flex gap-[15px] items-center">
             <div class="relative w-full">
               <div
                 class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none"
               >
                 <svg
-                  class="w-4 h-4 text-gray-500 dark:text-gray-400"
+                  class="w-4 h-4 text-gray-500 dark:text-gray-500"
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="currentColor"
@@ -60,7 +62,7 @@
               <input
                 type="text"
                 id="input-group-1"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5"
+                class="border border-gray-300 bg-transparent text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5"
                 placeholder="ex) 길동이"
               />
             </div>
@@ -70,24 +72,22 @@
                 class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none"
               >
                 <svg
-                  class="w-4 h-4 text-gray-500 dark:text-gray-400"
-                  aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
                   fill="currentColor"
-                  viewBox="0 0 20 16"
+                  class="size-4 fill-gray-500"
                 >
                   <path
-                    d="m10.036 8.278 9.258-7.79A1.979 1.979 0 0 0 18 0H2A1.987 1.987 0 0 0 .641.541l9.395 7.737Z"
-                  />
-                  <path
-                    d="M11.241 9.817c-.36.275-.801.425-1.255.427-.428 0-.845-.138-1.187-.395L0 2.6V14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2.5l-8.759 7.317Z"
+                    fill-rule="evenodd"
+                    d="M8.161 2.58a1.875 1.875 0 0 1 1.678 0l4.993 2.498c.106.052.23.052.336 0l3.869-1.935A1.875 1.875 0 0 1 21.75 4.82v12.485c0 .71-.401 1.36-1.037 1.677l-4.875 2.437a1.875 1.875 0 0 1-1.676 0l-4.994-2.497a.375.375 0 0 0-.336 0l-3.868 1.935A1.875 1.875 0 0 1 2.25 19.18V6.695c0-.71.401-1.36 1.036-1.677l4.875-2.437ZM9 6a.75.75 0 0 1 .75.75V15a.75.75 0 0 1-1.5 0V6.75A.75.75 0 0 1 9 6Zm6.75 3a.75.75 0 0 0-1.5 0v8.25a.75.75 0 0 0 1.5 0V9Z"
+                    clip-rule="evenodd"
                   />
                 </svg>
               </div>
               <input
                 type="text"
                 id="input-group-1"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5"
+                class="bg-transparent border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5"
                 placeholder="ex) 홍대입구"
               />
 
@@ -103,37 +103,137 @@
             </div>
 
             <button
-              class="bg-[#d63384] text-white h-[100%] w-[20%] p-[8px] rounded-[8px] cursor-pointer hover:bg-[#cc317e]"
+              class="font-bold bg-[#d63384] text-white h-[100%] w-[35%] p-[8px] rounded-[8px] cursor-pointer hover:bg-[#cc317e] flex items-center justify-center gap-[10px] disabled:bg-gray-300 disabled:text-gray-400"
+              disabled
             >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                class="size-4 fill-white"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M12 3.75a.75.75 0 0 1 .75.75v6.75h6.75a.75.75 0 0 1 0 1.5h-6.75v6.75a.75.75 0 0 1-1.5 0v-6.75H4.5a.75.75 0 0 1 0-1.5h6.75V4.5a.75.75 0 0 1 .75-.75Z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+
               추가
             </button>
           </div>
 
           <!-- 친구 목록 -->
           <div>
-            <div>추가된 친구 (2명)</div>
+            <div class="my-[15px] text-[0.8rem] text-gray-600 font-bold">
+              추가된 친구 (2명)
+            </div>
 
             <div class="flex-col">
               <div
-                class="shadow-[0_2px_8px_rgba(0,0,0,0.04)] flex p-[16px] border border-[rgba(0,0,0,0.06)] mb-[12px] rounded-[12px] text-[#333] gap-[30px] items-center"
+                class="shadow-[0_2px_8px_rgba(0,0,0,0.04)] flex px-[16px] py-[10px] border border-[rgba(0,0,0,0.06)] mb-[12px] rounded-[12px] text-[#333] gap-[30px] items-center"
               >
-                <div>icon</div>
                 <div>
-                  <div>이름</div>
-                  <div>홍대입구</div>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    class="size-5 fill-gray-500"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
                 </div>
-                <button class="ml-auto cursor-pointer">x</button>
+                <div class="flex flex-col gap-[3px]">
+                  <div class="font-bold text-[0.95rem]">이름</div>
+                  <div class="flex gap-[5px] items-end">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      class="size-4 fill-gray-500"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M8.161 2.58a1.875 1.875 0 0 1 1.678 0l4.993 2.498c.106.052.23.052.336 0l3.869-1.935A1.875 1.875 0 0 1 21.75 4.82v12.485c0 .71-.401 1.36-1.037 1.677l-4.875 2.437a1.875 1.875 0 0 1-1.676 0l-4.994-2.497a.375.375 0 0 0-.336 0l-3.868 1.935A1.875 1.875 0 0 1 2.25 19.18V6.695c0-.71.401-1.36 1.036-1.677l4.875-2.437ZM9 6a.75.75 0 0 1 .75.75V15a.75.75 0 0 1-1.5 0V6.75A.75.75 0 0 1 9 6Zm6.75 3a.75.75 0 0 0-1.5 0v8.25a.75.75 0 0 0 1.5 0V9Z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
+
+                    <div class="text-[0.8rem] text-gray-500">홍대입구</div>
+                  </div>
+                </div>
+                <button class="ml-auto cursor-pointer">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    class="size-4 fill-gray-700"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                </button>
               </div>
 
               <div
-                class="shadow-[0_2px_8px_rgba(0,0,0,0.04)] flex p-[16px] border border-[rgba(0,0,0,0.06)] mb-[12px] rounded-[12px] text-[#333] gap-[30px] items-center"
+                class="shadow-[0_2px_8px_rgba(0,0,0,0.04)] flex px-[16px] py-[10px] border border-[rgba(0,0,0,0.06)] mb-[12px] rounded-[12px] text-[#333] gap-[30px] items-center"
               >
-                <div>icon</div>
                 <div>
-                  <div>이름</div>
-                  <div>홍대입구</div>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    class="size-5 fill-gray-500"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
                 </div>
-                <button class="ml-auto cursor-pointer">x</button>
+                <div class="flex flex-col gap-[3px]">
+                  <div class="font-bold text-[0.95rem]">이름</div>
+                  <div class="flex gap-[5px] items-end">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      class="size-4 fill-gray-500"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M8.161 2.58a1.875 1.875 0 0 1 1.678 0l4.993 2.498c.106.052.23.052.336 0l3.869-1.935A1.875 1.875 0 0 1 21.75 4.82v12.485c0 .71-.401 1.36-1.037 1.677l-4.875 2.437a1.875 1.875 0 0 1-1.676 0l-4.994-2.497a.375.375 0 0 0-.336 0l-3.868 1.935A1.875 1.875 0 0 1 2.25 19.18V6.695c0-.71.401-1.36 1.036-1.677l4.875-2.437ZM9 6a.75.75 0 0 1 .75.75V15a.75.75 0 0 1-1.5 0V6.75A.75.75 0 0 1 9 6Zm6.75 3a.75.75 0 0 0-1.5 0v8.25a.75.75 0 0 0 1.5 0V9Z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
+
+                    <div class="text-[0.8rem] text-gray-500">홍대입구</div>
+                  </div>
+                </div>
+                <button
+                  class="ml-auto cursor-pointer p-[3px] rounded-[50%] hover:bg-red-300 flex items-center justify-center"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    class="size-4 fill-gray-700 hover:fill-white"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                </button>
               </div>
             </div>
           </div>
