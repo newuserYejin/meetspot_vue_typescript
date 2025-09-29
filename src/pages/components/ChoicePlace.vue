@@ -7,7 +7,7 @@ input[type="radio"]:checked + label {
 </style>
 
 <template>
-  <div class="py-[20px] px-[24px] h-100% max-w-[1200px] mx-auto">
+  <div class="py-[20px] px-[24px] max-w-[1200px] mx-auto">
     <div class="flex-col">
       <!-- title -->
       <div class="flex items-center gap-[10px] p-[20px] pb-[16px]">
@@ -19,11 +19,8 @@ input[type="radio"]:checked + label {
         >
           <path
             fill-rule="evenodd"
-            d="M8.25 6.75a3.75 3.75 0 1 1 7.5 0 3.75 3.75 0 0 1-7.5 0ZM15.75 9.75a3 3 0 1 1 6 0 3 3 0 0 1-6 0ZM2.25 9.75a3 3 0 1 1 6 0 3 3 0 0 1-6 0ZM6.31 15.117A6.745 6.745 0 0 1 12 12a6.745 6.745 0 0 1 6.709 7.498.75.75 0 0 1-.372.568A12.696 12.696 0 0 1 12 21.75c-2.305 0-4.47-.612-6.337-1.684a.75.75 0 0 1-.372-.568 6.787 6.787 0 0 1 1.019-4.38Z"
+            d="M8.161 2.58a1.875 1.875 0 0 1 1.678 0l4.993 2.498c.106.052.23.052.336 0l3.869-1.935A1.875 1.875 0 0 1 21.75 4.82v12.485c0 .71-.401 1.36-1.037 1.677l-4.875 2.437a1.875 1.875 0 0 1-1.676 0l-4.994-2.497a.375.375 0 0 0-.336 0l-3.868 1.935A1.875 1.875 0 0 1 2.25 19.18V6.695c0-.71.401-1.36 1.036-1.677l4.875-2.437ZM9 6a.75.75 0 0 1 .75.75V15a.75.75 0 0 1-1.5 0V6.75A.75.75 0 0 1 9 6Zm6.75 3a.75.75 0 0 0-1.5 0v8.25a.75.75 0 0 0 1.5 0V9Z"
             clip-rule="evenodd"
-          />
-          <path
-            d="M5.082 14.254a8.287 8.287 0 0 0-1.308 5.135 9.687 9.687 0 0 1-1.764-.44l-.115-.04a.563.563 0 0 1-.373-.487l-.01-.121a3.75 3.75 0 0 1 3.57-4.047ZM20.226 19.389a8.287 8.287 0 0 0-1.308-5.135 3.75 3.75 0 0 1 3.57 4.047l-.01.121a.563.563 0 0 1-.373.486l-.115.04c-.567.2-1.156.349-1.764.441Z"
           />
         </svg>
         <div class="font-bold text-[24px] tracking-tight">
@@ -40,14 +37,14 @@ input[type="radio"]:checked + label {
         >
           <input
             type="radio"
-            value="hotPlace"
+            value="hotPlaceTab"
             name="placeRadio"
-            id="hotPlace"
+            id="hotPlaceTab"
             class="hidden"
-            v-model="selectedPlace"
+            v-model="selectedTab"
           />
           <label
-            for="hotPlace"
+            for="hotPlaceTab"
             class="flex items-center text-gray-600 px-[15px] py-[5px] font-bold tracking-tight min-h-[56px]"
           >
             <div>인기지역</div>
@@ -55,14 +52,14 @@ input[type="radio"]:checked + label {
 
           <input
             type="radio"
-            value="searchPlace"
+            value="searchPlaceTab"
             name="placeRadio"
-            id="searchPlace"
+            id="searchPlaceTab"
             class="hidden"
-            v-model="selectedPlace"
+            v-model="selectedTab"
           />
           <label
-            for="searchPlace"
+            for="searchPlaceTab"
             class="flex items-center text-gray-600 px-[24px] py-[5px] font-bold tracking-tight min-h-[56px]"
           >
             <div>검색</div>
@@ -72,14 +69,28 @@ input[type="radio"]:checked + label {
         <!-- 콘텐츠 영역 -->
         <div class="p-[20px] flex-col bg-transparent">
           <div class="flex gap-[15px] items-center justify-center">
-            <div v-show="selectedPlace == 'hotPlace'">
+            <div v-show="selectedTab == 'hotPlaceTab'">
               <div
                 v-if="SUBWAY_STATIONS.length > 0"
                 class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-[10px]"
               >
                 <div
                   v-for="item in SUBWAY_STATIONS"
+                  @click="
+                    selectedPlaceList.includes(item.name)
+                      ? deletePlace(
+                          selectedPlaceList.findIndex(
+                            (place) => place == item.name
+                          )
+                        )
+                      : addPlace(item.name)
+                  "
                   class="h-[100px] transition-all duration-300 hover:border-primary hover:-translate-y-0.5 hover:shadow-lg-custom hover:border-[#6c5ce7] cursor-pointer ease-in-out border-[rgba(0,0,0,0.08)] border-[1px] shadow-[0_1px_3px_rgba(0,0,0,0.1)] rounded-[8px] p-[5px] flex flex-col items-center justify-center gap-[8px]"
+                  :class="
+                    selectedPlaceList.includes(item.name)
+                      ? 'bg-gradient-to-br from-[#6c5ce7] to-[rgb(75,64,161)] text-white'
+                      : ''
+                  "
                 >
                   <div class="font-bold text-[0.8rem] break-words">
                     {{ item.name }}
@@ -90,6 +101,11 @@ input[type="radio"]:checked + label {
                     <div
                       v-for="tag in item.tags"
                       class="text-[0.6rem] font-bold bg-[rgba(108,92,231,0.08)] text-[#6c5ce7] px-[4px] rounded-[8px]"
+                      :class="
+                        selectedPlaceList.includes(item.name)
+                          ? 'bg-[rgba(255,255,255,0.25)] text-white'
+                          : ''
+                      "
                     >
                       {{ tag }}
                     </div>
@@ -107,23 +123,24 @@ input[type="radio"]:checked + label {
 
 <script lang="ts">
 import { SUBWAY_STATIONS } from "@/pages/config";
+import { usePlaceStore } from "@/stores/usePlaceStore";
 import { ref, watch } from "vue";
 
 export default {
   name: "",
   components: {},
   setup() {
-    const selectedPlace = ref("hotPlace");
+    const selectedTab = ref("hotPlaceTab");
+    const placeStore = usePlaceStore();
 
-    // 선택값 변경 감지하여 콘솔 출력
-    watch(selectedPlace, (newVal) => {
-      console.log("선택된 장소:", newVal);
-    });
+    const { selectedPlaceList, addPlace, deletePlace } = placeStore;
 
     return {
-      sampleData: "",
+      selectedTab,
       SUBWAY_STATIONS,
-      selectedPlace,
+      selectedPlaceList,
+      addPlace,
+      deletePlace,
     };
   },
 };

@@ -4,6 +4,7 @@
   <div>
     <TodayFriendBox />
     <ChoicePlace />
+    <CheckTodayMeeting />
   </div>
 </template>
 
@@ -11,12 +12,14 @@
 import { defineComponent } from "vue";
 import TodayFriendBox from "./components/TodayFriendBox.vue";
 import ChoicePlace from "./components/ChoicePlace.vue";
+import CheckTodayMeeting from "./components/CheckTodayMeeting.vue";
 
 export default defineComponent({
   name: "Mainpage",
   components: {
     TodayFriendBox,
     ChoicePlace,
+    CheckTodayMeeting,
   },
   data() {
     return {

@@ -64,6 +64,7 @@
                 id="input-group-1"
                 class="border border-gray-300 bg-transparent text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5"
                 placeholder="ex) 길동이"
+                v-model="friendName"
               />
             </div>
 
@@ -89,22 +90,82 @@
                 id="input-group-1"
                 class="bg-transparent border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5"
                 placeholder="ex) 홍대입구"
+                v-model="searchStation"
+                @input="filterStationFn(searchStation)"
               />
 
+              <div
+                class="absolute inset-y-0 end-2 flex items-center ps-3.5 cursor-pointer hover:text-gray-600"
+                v-show="searchStation && searchStation.trim() != ''"
+                @click="
+                  () => {
+                    searchStation = '';
+                    filteredStations = [];
+                    selectedStation = null;
+                  }
+                "
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="size-4 text-gray-400"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M6 18 18 6M6 6l12 12"
+                  />
+                </svg>
+              </div>
+
               <ui
-                v-show="false"
+                v-show="filteredStations.length > 0"
                 class="absolute shadow-lg w-full mt-[5px] z-3 bg-white rounded-b-[8px] list-none"
               >
-                <li class="cursor-pointer hover:bg-[#f5f5f5] p-[10px]">asd</li>
-                <li class="cursor-pointer hover:bg-[#f5f5f5] p-[10px]">asd</li>
-                <li class="cursor-pointer hover:bg-[#f5f5f5] p-[10px]">asd</li>
-                <li class="cursor-pointer hover:bg-[#f5f5f5] p-[10px]">asd</li>
+                <li
+                  class="cursor-pointer hover:bg-[#f5f5f5] p-[10px] flex justify-between border-b-[1px] border-b-[rgba(0,0,0,0.06)]"
+                  v-for="item in filteredStations"
+                  :key="item.station_cd + item.line_num"
+                  @click="handleStationSelect(item)"
+                >
+                  <div class="flex items-center gap-[10px]">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      class="size-4 fill-gray-500"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M8.161 2.58a1.875 1.875 0 0 1 1.678 0l4.993 2.498c.106.052.23.052.336 0l3.869-1.935A1.875 1.875 0 0 1 21.75 4.82v12.485c0 .71-.401 1.36-1.037 1.677l-4.875 2.437a1.875 1.875 0 0 1-1.676 0l-4.994-2.497a.375.375 0 0 0-.336 0l-3.868 1.935A1.875 1.875 0 0 1 2.25 19.18V6.695c0-.71.401-1.36 1.036-1.677l4.875-2.437ZM9 6a.75.75 0 0 1 .75.75V15a.75.75 0 0 1-1.5 0V6.75A.75.75 0 0 1 9 6Zm6.75 3a.75.75 0 0 0-1.5 0v8.25a.75.75 0 0 0 1.5 0V9Z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
+                    <div class="font-bold text-[0.8rem] text-gray-600">
+                      {{ item.station_nm }}
+                    </div>
+                  </div>
+                  <div
+                    class="text-[0.7rem] border px-[8px] rounded-[30px]"
+                    :style="{
+                      backgroundColor: getLineColor(item.line_num) + '15',
+                      color: getLineColor(item.line_num),
+                      border: '1px solid ' + getLineColor(item.line_num) + '30',
+                    }"
+                  >
+                    {{ item.line_num }}
+                  </div>
+                </li>
               </ui>
             </div>
 
             <button
               class="font-bold bg-[#d63384] text-white h-[100%] w-[35%] p-[8px] rounded-[8px] cursor-pointer hover:bg-[#cc317e] flex items-center justify-center gap-[10px] disabled:bg-gray-300 disabled:text-gray-400"
-              disabled
+              :disabled="friendName.trim() == '' || null == selectedStation"
+              @click="addFriend"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -125,12 +186,16 @@
 
           <!-- 친구 목록 -->
           <div>
-            <div class="my-[15px] text-[0.8rem] text-gray-600 font-bold">
-              추가된 친구 (2명)
+            <div
+              class="my-[15px] text-[0.8rem] text-gray-600 font-bold"
+              v-show="todayFriendList.length > 0"
+            >
+              추가된 친구 ({{ todayFriendList.length }}명)
             </div>
 
             <div class="flex-col">
               <div
+                v-for="(friend, index) in todayFriendList"
                 class="shadow-[0_2px_8px_rgba(0,0,0,0.04)] flex px-[16px] py-[10px] border border-[rgba(0,0,0,0.06)] mb-[12px] rounded-[12px] text-[#333] gap-[30px] items-center"
               >
                 <div>
@@ -147,60 +212,10 @@
                     />
                   </svg>
                 </div>
-                <div class="flex flex-col gap-[3px]">
-                  <div class="font-bold text-[0.95rem]">이름</div>
-                  <div class="flex gap-[5px] items-end">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                      class="size-4 fill-gray-500"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        d="M8.161 2.58a1.875 1.875 0 0 1 1.678 0l4.993 2.498c.106.052.23.052.336 0l3.869-1.935A1.875 1.875 0 0 1 21.75 4.82v12.485c0 .71-.401 1.36-1.037 1.677l-4.875 2.437a1.875 1.875 0 0 1-1.676 0l-4.994-2.497a.375.375 0 0 0-.336 0l-3.868 1.935A1.875 1.875 0 0 1 2.25 19.18V6.695c0-.71.401-1.36 1.036-1.677l4.875-2.437ZM9 6a.75.75 0 0 1 .75.75V15a.75.75 0 0 1-1.5 0V6.75A.75.75 0 0 1 9 6Zm6.75 3a.75.75 0 0 0-1.5 0v8.25a.75.75 0 0 0 1.5 0V9Z"
-                        clip-rule="evenodd"
-                      />
-                    </svg>
-
-                    <div class="text-[0.8rem] text-gray-500">홍대입구</div>
+                <div class="flex flex-col py-[8px]">
+                  <div class="font-bold text-[0.9rem]">
+                    {{ friend.friend_name }}
                   </div>
-                </div>
-                <button class="ml-auto cursor-pointer">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                    class="size-4 fill-gray-700"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z"
-                      clip-rule="evenodd"
-                    />
-                  </svg>
-                </button>
-              </div>
-
-              <div
-                class="shadow-[0_2px_8px_rgba(0,0,0,0.04)] flex px-[16px] py-[10px] border border-[rgba(0,0,0,0.06)] mb-[12px] rounded-[12px] text-[#333] gap-[30px] items-center"
-              >
-                <div>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                    class="size-5 fill-gray-500"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z"
-                      clip-rule="evenodd"
-                    />
-                  </svg>
-                </div>
-                <div class="flex flex-col gap-[3px]">
-                  <div class="font-bold text-[0.95rem]">이름</div>
                   <div class="flex gap-[5px] items-end">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -215,10 +230,13 @@
                       />
                     </svg>
 
-                    <div class="text-[0.8rem] text-gray-500">홍대입구</div>
+                    <div class="text-[0.75rem] text-gray-500">
+                      {{ friend.station_nm }}
+                    </div>
                   </div>
                 </div>
                 <button
+                  @click="deleteFriend(index)"
                   class="ml-auto cursor-pointer p-[3px] rounded-[50%] hover:bg-red-300 flex items-center justify-center"
                 >
                   <svg
@@ -244,12 +262,80 @@
 </template>
 
 <script lang="ts">
+import { Friend, StationData } from "@/model";
+import { getLineColor, STATION_CONFIG } from "@/stationConfig";
+import { useFriendStore } from "@/stores/useFriendStore";
+import { ref } from "vue";
+
 export default {
   name: "TodayFriendBox",
   components: {},
   setup() {
+    const searchStation = ref<string>("");
+    const selectedStation = ref<StationData | null>(null);
+    const friendName = ref<string>("");
+    const filteredStations = ref<StationData[]>([]);
+
+    // pinia store에서 가져오기
+    const friendStore = useFriendStore();
+    const todayFriendList = friendStore.todayFriendList;
+
+    // 지하철 역 필터링
+    const filterStationFn = (searchStation: string): void => {
+      if (searchStation.trim() != "") {
+        const filteredResult = STATION_CONFIG.DATA.filter(
+          (station: StationData) =>
+            station.station_nm
+              .toLowerCase()
+              .includes(searchStation.toLowerCase()) ||
+            station.line_num.includes(searchStation)
+        ).slice(0, 8);
+
+        filteredStations.value = filteredResult;
+      } else {
+        filteredStations.value = [];
+      }
+    };
+
+    const handleStationSelect = (station: StationData) => {
+      const displayText = `${station.station_nm} (${station.line_num})`;
+      searchStation.value = displayText;
+      selectedStation.value = station;
+      filteredStations.value = [];
+    };
+
+    const addFriend = () => {
+      if (friendName && null != selectedStation) {
+        const friendInfo = {
+          friend_name: friendName.value,
+          station_cd: selectedStation.value?.station_cd || "",
+          station_nm: selectedStation.value?.station_nm || "",
+          line_num: selectedStation.value?.line_num || "",
+          fr_code: selectedStation.value?.fr_code || "",
+        };
+
+        friendStore.addFriend(friendInfo);
+        searchStation.value = "";
+        selectedStation.value = null;
+        friendName.value = "";
+      }
+    };
+
+    const deleteFriend = (index: number) => {
+      friendStore.deleteFriend(index);
+    };
+
     return {
-      sampleData: "",
+      searchStation,
+      filterStationFn,
+      filteredStations,
+      getLineColor,
+      handleStationSelect,
+      selectedStation,
+      friendName,
+      todayFriendList,
+      addFriend,
+      deleteFriend,
     };
   },
 };

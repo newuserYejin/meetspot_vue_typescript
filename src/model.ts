@@ -20,3 +20,25 @@ export interface SubwayStation {
 }
 
 export type RECOMMEND_SUBWAY_STATIONS = SubwayStation[];
+
+export interface StationData {
+  line_num: string;
+  station_cd: string;
+  station_nm: string;
+  fr_code: string;
+}
+
+export interface StationResponse {
+  DESCRIPTION: {
+    STATION_NM: string;
+    STATION_CD: string;
+    LINE_NUM: string;
+    FR_CODE: string;
+  };
+  DATA: StationData[];
+}
+
+export interface Friend extends StationData {
+  friend_name: string;
+  group?: string;
+}
