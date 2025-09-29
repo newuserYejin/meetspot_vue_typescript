@@ -21,6 +21,8 @@
           </svg>
           <div class="font-bold text-[1.2rem]">만남 계획 확인</div>
         </div>
+
+        <!-- 만날 친구 확인 -->
         <div
           class="flex flex-wrap items-center gap-[5px] bg-white rounded-[12px] p-[15px] border-[1px] border-[rgba(0,0,0,0.04)] mb-[15px]"
         >
@@ -67,6 +69,8 @@
             </div>
           </div>
         </div>
+
+        <!-- 후보지 확인 -->
         <div
           class="flex items-center gap-[5px] bg-white rounded-[12px] p-[15px] border-[1px] border-[rgba(0,0,0,0.04)]"
         >
@@ -91,7 +95,7 @@
           <div class="flex flex-wrap">
             <div
               v-for="(place, index) in selectedPlaceList"
-              class="flex items-center border text-[0.75em] py-[6px] px-[10px] gap-[4px] rounded-[8px] font-bold text-white bg-[#6c757d]"
+              class="flex items-center border text-[0.75em] py-[6px] px-[10px] gap-[4px] rounded-[8px] font-bold bg-gradient-to-br from-[#6c5ce7] to-[rgb(75,64,161)] text-white"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -124,6 +128,35 @@
               </svg>
             </div>
           </div>
+        </div>
+
+        <!-- 계산 버튼 -->
+        <div class="flex justify-center items-center my-[20px]">
+          <button
+            class="flex gap-[10px] transition-all ease-in-out duration-500 hover:-translate-y-1 cursor-pointer items-center bg-gradient-to-tr from-[#667eea] to-[#764ba2] text-white py-[15px] px-[20px] rounded-[8px] text-[0.9rem] font-extrabold"
+          >
+            {{ todayFriendList.length }}명과 {{ selectedPlaceList.length }}개 역
+            중 최적 장소 찾기
+
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="2.5"
+              stroke="currentColor"
+              class="size-4.5"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"
+              />
+            </svg>
+          </button>
+        </div>
+
+        <div class="text-[0.7rem] text-gray-400 font-light text-center">
+          각 친구의 이동 시간과 최적 경로를 확인할 수 있습니다
         </div>
       </div>
     </div>
