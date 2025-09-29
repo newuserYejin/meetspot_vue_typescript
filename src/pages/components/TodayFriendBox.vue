@@ -196,7 +196,7 @@
             <div class="flex-col">
               <div
                 v-for="(friend, index) in todayFriendList"
-                class="shadow-[0_2px_8px_rgba(0,0,0,0.04)] flex px-[16px] py-[10px] border border-[rgba(0,0,0,0.06)] mb-[12px] rounded-[12px] text-[#333] gap-[30px] items-center"
+                class="shadow-[0_2px_8px_rgba(0,0,0,0.04)] flex px-[16px] py-[10px] border border-[rgba(0,0,0,0.06)] mb-[12px] rounded-[12px] text-[#333] gap-[0.8rem] items-center"
               >
                 <div>
                   <svg
