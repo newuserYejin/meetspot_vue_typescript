@@ -1,15 +1,26 @@
+import { StationData } from "@/model";
 import { defineStore } from "pinia";
 
 export const usePlaceStore = defineStore("selectedPlace", {
-  state: (): { selectedPlaceList: string[] } => {
+  state: (): { selectedPlaceList: StationData[] } => {
     return { selectedPlaceList: [] };
   },
   actions: {
-    addPlace(selectedPlace: string) {
-      this.selectedPlaceList.push(selectedPlace);
+    addPlace(selectedPlace: string, lineNum: string) {
+      const newChoice: StationData = {
+        line_num: lineNum,
+        station_cd: "",
+        station_nm: selectedPlace,
+        fr_code: "",
+      };
+
+      this.selectedPlaceList.push(newChoice);
     },
     deletePlace(indexNum: number) {
       this.selectedPlaceList.splice(indexNum, 1);
+    },
+    setStationCode(stationCd: string, indexNum: number) {
+      this.selectedPlaceList[indexNum].station_cd = stationCd;
     },
   },
 });

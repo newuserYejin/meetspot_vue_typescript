@@ -13,9 +13,9 @@ const routes: RouteRecordRaw[] = [
         component: () => import("@pages/Main.vue"),
       },
       {
-        path: "test",
-        name: "test view",
-        component: () => import("@pages/TestPage.vue"),
+        path: "bestResult",
+        name: "best result page",
+        component: () => import("@pages/ResultPage.vue"),
       },
     ],
   },

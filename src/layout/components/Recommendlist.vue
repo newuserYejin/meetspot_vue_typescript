@@ -82,14 +82,15 @@
 <script lang="ts">
 import { fetchPlace } from "@/apis/FetchPlaceApi";
 import { PlaceItem, SubwayStation } from "@/model";
-import { onMounted, PropType, ref } from "vue";
+import { onMounted, PropType, ref, watch } from "vue";
 
 export default {
   name: "RecommendedList",
   components: {},
   props: {
-    currentStation: {
-      type: Object as PropType<SubwayStation | null>,
+    currentStation_nm: {
+      // type: Object as PropType<SubwayStation | null >,
+      type: String as PropType<string>,
       required: true,
     },
   },
@@ -99,29 +100,43 @@ export default {
     const isLoading = ref(true);
     const error = ref<string | null>(null);
 
-    onMounted(async () => {
-      if (!props.currentStation) return;
+    const fetchData = async (stationName: string) => {
+      console.log("currentStation_nm : ", stationName);
+      if (!stationName) return;
+      isLoading.value = true;
 
-      const resultFood = await fetchPlace(
-        props.currentStation?.name,
-        "맛집",
-        3
-      );
-      restaurants.value = resultFood;
+      try {
+        const resultFood = await fetchPlace(stationName, "맛집", 3);
+        restaurants.value = resultFood;
 
-      const resultCafe = await fetchPlace(
-        props.currentStation?.name,
-        "카페",
-        3
-      );
+        const resultCafe = await fetchPlace(stationName, "카페", 3);
+        cafes.value = resultCafe;
 
-      cafes.value = resultCafe;
-      isLoading.value = false;
+        error.value = null;
+      } catch (e: any) {
+        error.value = e.message || "ERROR";
+      } finally {
+        isLoading.value = false;
+      }
+    };
+
+    onMounted(() => {
+      fetchData(props.currentStation_nm);
     });
 
     const openPlaceMap = (url: string) => {
       window.open(url, "_blank");
     };
+
+    // watch로 prop 변경 시마다 fetch 재실행
+    watch(
+      () => props.currentStation_nm,
+      (newVal, oldVal) => {
+        if (newVal !== oldVal) {
+          fetchData(newVal);
+        }
+      }
+    );
 
     return {
       restaurants,

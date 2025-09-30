@@ -14,8 +14,15 @@
     <div
       class="flex-col bg-white w-[100%] rounded-[8px] p-[20px] shadow-[0_2px_12px_rgba(0,0,0,0.08)]"
     >
-      <div class="font-bold text-[16px] mb-[16px]">⭐ 오늘의 추천 장소</div>
-      <div class="bg-[#f8f9ff] rounded-[12px] p-[16px] mb-[20px]">
+      <div class="font-bold text-[16px] mb-[16px]" v-show="todayResult == ''">
+        ⭐ 오늘의 추천 장소
+      </div>
+
+      <!-- 오늘의 추천역 정보 출력 -->
+      <div
+        class="bg-[#f8f9ff] rounded-[12px] p-[16px] mb-[20px]"
+        v-show="todayResult == ''"
+      >
         <div class="text-[18px] font-bold text-[#6c5ce7] mb-[6px]">
           {{ currentStation?.name }}
         </div>
@@ -36,7 +43,7 @@
       <!-- <Recommendlist :currentStation="currentStation" /> -->
       <Recommendlist
         v-if="currentStation"
-        :currentStation="currentStation"
+        :currentStation_nm="currentStation.name"
         class="flex-1 hide-scrollbar"
       />
     </div>
@@ -47,20 +54,44 @@
 import { getRandomStation } from "@/apis/GetRandomStation";
 import Recommendlist from "./components/Recommendlist.vue";
 import { SubwayStation } from "@/model";
-import { ref, onMounted } from "vue";
+import { computed, ref, watch } from "vue";
+import { useTodayResultStore } from "@/stores/useTodayResultStore";
+import { useRoute } from "vue-router";
+import { storeToRefs } from "pinia";
 
 export default {
   name: "Sidebar",
   components: { Recommendlist },
   setup() {
     const currentStation = ref<SubwayStation | null>(null);
+    const todayResultStore = useTodayResultStore();
+    const { todayResult } = storeToRefs(todayResultStore);
+    const route = useRoute();
 
-    onMounted(async () => {
-      currentStation.value = getRandomStation();
-    });
+    console.log("side bar"); // 공통 로직: 값 변화 또는 라우트 변화마다 currentStation 결정
+
+    const updateSidebar = () => {
+      console.log("updateSidebar 실행 : ", todayResult.value);
+      if (route.path === "/bestResult" || todayResult.value != "") {
+        // /bestResult에서는 todayResult값이 역 이름
+        currentStation.value = {
+          name: todayResult.value,
+          line_num: "",
+          description: "",
+          tags: [""],
+        };
+      } else {
+        currentStation.value = getRandomStation();
+      }
+    };
+    updateSidebar();
+
+    // todayResult, 라우트 path가 변하면 updateSidebar 다시 실행
+    watch([todayResult, () => route.path], updateSidebar);
 
     return {
       currentStation,
+      todayResult,
     };
   },
   created() {},

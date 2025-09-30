@@ -109,7 +109,16 @@
                   clip-rule="evenodd"
                 />
               </svg>
-              <div>{{ place }}</div>
+              <div class="flex gap-[5px]">
+                <span>{{ place.station_nm }}</span>
+                <span>
+                  ({{
+                    typeof place.line_num === "number"
+                      ? place.line_num
+                      : place.line_num + "호선"
+                  }})
+                </span>
+              </div>
 
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -133,7 +142,11 @@
         <!-- 계산 버튼 -->
         <div class="flex justify-center items-center my-[20px]">
           <button
-            class="flex gap-[10px] transition-all ease-in-out duration-500 hover:-translate-y-1 cursor-pointer items-center bg-gradient-to-tr from-[#667eea] to-[#764ba2] text-white py-[15px] px-[20px] rounded-[8px] text-[0.9rem] font-extrabold"
+            :disabled="
+              todayFriendList.length == 0 || selectedPlaceList.length == 0
+            "
+            class="flex gap-[10px] transition-all ease-in-out duration-500 hover:-translate-y-1 cursor-pointer items-center bg-gradient-to-tr from-[#667eea] to-[#764ba2] text-white py-[15px] px-[20px] rounded-[8px] text-[0.9rem] font-extrabold disabled:to-gray-300 disabled:from-gray-300 disabled:pointer-events-none"
+            @click="goResult"
           >
             {{ todayFriendList.length }}명과 {{ selectedPlaceList.length }}개 역
             중 최적 장소 찾기
@@ -164,8 +177,10 @@
 </template>
 
 <script lang="ts">
+import router from "@/routes";
 import { useFriendStore } from "@/stores/useFriendStore";
 import { usePlaceStore } from "@/stores/usePlaceStore";
+import { useTodayResultStore } from "@/stores/useTodayResultStore";
 
 export default {
   name: "",
@@ -176,11 +191,16 @@ export default {
     const { todayFriendList, deleteFriend } = friendStore;
     const { selectedPlaceList, deletePlace } = placeStore;
 
+    const goResult = async () => {
+      router.push("/bestResult");
+    };
+
     return {
       todayFriendList,
       selectedPlaceList,
       deleteFriend,
       deletePlace,
+      goResult,
     };
   },
 };

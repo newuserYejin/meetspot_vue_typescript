@@ -76,24 +76,51 @@ input[type="radio"]:checked + label {
               >
                 <div
                   v-for="item in SUBWAY_STATIONS"
-                  @click="
-                    selectedPlaceList.includes(item.name)
-                      ? deletePlace(
-                          selectedPlaceList.findIndex(
-                            (place) => place == item.name
-                          )
-                        )
-                      : addPlace(item.name)
-                  "
+                  @click="togglePlace(item)"
                   class="h-[100px] transition-all duration-300 hover:border-primary hover:-translate-y-0.5 hover:shadow-lg-custom hover:border-[#6c5ce7] cursor-pointer ease-in-out border-[rgba(0,0,0,0.08)] border-[1px] shadow-[0_1px_3px_rgba(0,0,0,0.1)] rounded-[8px] p-[5px] flex flex-col items-center justify-center gap-[8px]"
                   :class="
-                    selectedPlaceList.includes(item.name)
+                    selectedPlaceList.findIndex(
+                      (place) =>
+                        place.station_nm === item.name &&
+                        place.line_num?.includes(item.line_num)
+                    ) != -1
                       ? 'bg-gradient-to-br from-[#6c5ce7] to-[rgb(75,64,161)] text-white'
                       : ''
                   "
                 >
-                  <div class="font-bold text-[0.8rem] break-words">
-                    {{ item.name }}
+                  <div
+                    class="flex flex-wrap justify-center gap-[3px] font-bold text-[0.8rem] break-words"
+                  >
+                    <span>{{ item.name }}</span>
+                    <span
+                      class="text-[0.7rem] border px-[8px] rounded-[30px]"
+                      :style="{
+                        backgroundColor:
+                          getLineColor(
+                            typeof item.line_num === 'number'
+                              ? item.line_num
+                              : item.line_num.padStart(2, '0') + '호선'
+                          ) + '15',
+                        color: getLineColor(
+                          typeof item.line_num === 'number'
+                            ? item.line_num
+                            : item.line_num.padStart(2, '0') + '호선'
+                        ),
+                        border:
+                          '1px solid ' +
+                          getLineColor(
+                            typeof item.line_num === 'number'
+                              ? item.line_num
+                              : item.line_num.padStart(2, '0') + '호선'
+                          ) +
+                          '30',
+                      }"
+                      >{{
+                        typeof item.line_num === "number"
+                          ? item.line_num
+                          : item.line_num + "호선"
+                      }}</span
+                    >
                   </div>
                   <div
                     class="flex gap-[5px] break-words flex-wrap justify-center"
@@ -102,7 +129,11 @@ input[type="radio"]:checked + label {
                       v-for="tag in item.tags"
                       class="text-[0.6rem] font-bold bg-[rgba(108,92,231,0.08)] text-[#6c5ce7] px-[4px] rounded-[8px]"
                       :class="
-                        selectedPlaceList.includes(item.name)
+                        selectedPlaceList.findIndex(
+                          (place) =>
+                            place.station_nm === item.name &&
+                            place.line_num?.includes(item.line_num)
+                        ) != -1
                           ? 'bg-[rgba(255,255,255,0.25)] text-white'
                           : ''
                       "
@@ -122,7 +153,9 @@ input[type="radio"]:checked + label {
 </template>
 
 <script lang="ts">
+import { SubwayStation } from "@/model";
 import { SUBWAY_STATIONS } from "@/pages/config";
+import { getLineColor } from "@/stationConfig";
 import { usePlaceStore } from "@/stores/usePlaceStore";
 import { ref, watch } from "vue";
 
@@ -135,12 +168,32 @@ export default {
 
     const { selectedPlaceList, addPlace, deletePlace } = placeStore;
 
+    const togglePlace = (item: SubwayStation) => {
+      const idx = selectedPlaceList.findIndex(
+        (place) =>
+          place.station_nm === item.name &&
+          place.line_num?.includes(item.line_num)
+      );
+      if (idx !== -1) {
+        deletePlace(idx);
+      } else {
+        addPlace(item.name, item.line_num);
+      }
+    };
+
+    watch(
+      () => selectedPlaceList,
+      (newVal, oldVal) => {
+        console.log("selectedPlaceList newVal : ", newVal, oldVal);
+      }
+    );
+
     return {
       selectedTab,
       SUBWAY_STATIONS,
       selectedPlaceList,
-      addPlace,
-      deletePlace,
+      getLineColor,
+      togglePlace,
     };
   },
 };

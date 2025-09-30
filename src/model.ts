@@ -15,6 +15,7 @@ export interface PlaceItem {
 
 export interface SubwayStation {
   name: string;
+  line_num: string;
   description: string;
   tags: string[];
 }
@@ -22,10 +23,10 @@ export interface SubwayStation {
 export type RECOMMEND_SUBWAY_STATIONS = SubwayStation[];
 
 export interface StationData {
-  line_num: string;
-  station_cd: string;
+  line_num?: string;
+  station_cd?: string;
   station_nm: string;
-  fr_code: string;
+  fr_code?: string;
 }
 
 export interface StationResponse {
@@ -41,4 +42,22 @@ export interface StationResponse {
 export interface Friend extends StationData {
   friend_name: string;
   group?: string;
+}
+
+export interface SearchStationResult {
+  stationClass: number;
+  stationName: string;
+  stationID: string;
+  x: number;
+  y: number;
+  CID: number;
+  cityName: string;
+  arsID: string;
+  do: string;
+  gu: string;
+  dong: string;
+  type: number;
+  laneName: string;
+  laneCity: String;
+  ebid: string;
 }
