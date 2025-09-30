@@ -4,6 +4,7 @@
   background-color: #f8f9fa;
   height: 100vh;
   overflow: hidden;
+  padding: 1rem 3rem;
 }
 </style>
 

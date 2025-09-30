@@ -19,8 +19,5 @@ export const usePlaceStore = defineStore("selectedPlace", {
     deletePlace(indexNum: number) {
       this.selectedPlaceList.splice(indexNum, 1);
     },
-    setStationCode(stationCd: string, indexNum: number) {
-      this.selectedPlaceList[indexNum].station_cd = stationCd;
-    },
   },
 });

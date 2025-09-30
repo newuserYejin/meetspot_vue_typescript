@@ -25,6 +25,7 @@ export type RECOMMEND_SUBWAY_STATIONS = SubwayStation[];
 export interface StationData {
   line_num?: string;
   station_cd?: string;
+  real_cd?: string; // 친구용으로만 사용
   station_nm: string;
   fr_code?: string;
 }
@@ -33,6 +34,7 @@ export interface StationResponse {
   DESCRIPTION: {
     STATION_NM: string;
     STATION_CD: string;
+    REAL_CD?: string;
     LINE_NUM: string;
     FR_CODE: string;
   };
@@ -60,4 +62,12 @@ export interface SearchStationResult {
   laneName: string;
   laneCity: String;
   ebid: string;
+}
+
+export interface CalStationPathResult {
+  friend_info: Friend;
+  target_place_info: StationData;
+  time: number;
+  station_cnt: number;
+  exChange_cnt: number;
 }
