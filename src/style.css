@@ -1,5 +1,16 @@
 @import "tailwindcss";
 
+/* src/assets/global.css */
+:root {
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: inherit;
+}
+
 /* 스크롤바 전체 */
 ::-webkit-scrollbar {
   width: 4px;

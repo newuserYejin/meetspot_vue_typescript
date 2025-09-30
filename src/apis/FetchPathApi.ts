@@ -12,8 +12,6 @@ export const fetchPathStaion = async (startID: string, endID: string) => {
     const response = await fetch(url);
 
     const data = await response.json();
-
-    console.log("출발지 : ", startID, " 도착지 : ", endID, " 경로 : ", data);
     return data.result;
   } catch (error) {
     console.error("지하철 경로 검색 실패:", error);

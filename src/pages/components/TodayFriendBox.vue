@@ -128,7 +128,7 @@
                 <li
                   class="cursor-pointer hover:bg-[#f5f5f5] p-[10px] flex justify-between border-b-[1px] border-b-[rgba(0,0,0,0.06)]"
                   v-for="item in filteredStations"
-                  :key="item.station_cd + item.line_num"
+                  :key="item.station_cd ?? 'station_cd' + item.line_num"
                   @click="handleStationSelect(item)"
                 >
                   <div class="flex items-center gap-[10px]">
@@ -151,9 +151,10 @@
                   <div
                     class="text-[0.7rem] border px-[8px] rounded-[30px]"
                     :style="{
-                      backgroundColor: getLineColor(item.line_num) + '15',
-                      color: getLineColor(item.line_num),
-                      border: '1px solid ' + getLineColor(item.line_num) + '30',
+                      backgroundColor: getLineColor(item.line_num || '') + '15',
+                      color: getLineColor(item.line_num || ''),
+                      border:
+                        '1px solid ' + getLineColor(item.line_num || '') + '30',
                     }"
                   >
                     {{ item.line_num }}
@@ -288,7 +289,7 @@ export default {
             station.station_nm
               .toLowerCase()
               .includes(searchStation.toLowerCase()) ||
-            station.line_num.includes(searchStation)
+            station.line_num?.includes(searchStation)
         ).slice(0, 8);
 
         filteredStations.value = filteredResult;
