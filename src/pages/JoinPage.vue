@@ -85,6 +85,8 @@
 </template>
 
 <script lang="ts">
+import { useJoin } from "@/hooks/Join";
+import { JoinRequet } from "@/model";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 
@@ -93,6 +95,14 @@ export default {
   components: {},
   setup() {
     const router = useRouter();
+
+    const {
+      mutate: joinMutation,
+      isLoading,
+      isError,
+      error,
+      isPending,
+    } = useJoin();
 
     const goLoginPage = () => {
       router.push("/login");
@@ -122,11 +132,25 @@ export default {
 
       console.log("자동 수집된 Form 데이터:", data);
 
+      if (data.userPw !== data.userPw_re) {
+        console.log("비밀번호 확인 불일치");
+        return false;
+      }
+
       doJoin(data);
     };
 
     const doJoin = (joinData: Record<string, string>) => {
       console.log("joinData : ", joinData);
+
+      const sendData: JoinRequet = {
+        userId: joinData.userId ?? "",
+        userPw: joinData.userPw ?? "",
+        userName: joinData.userName ?? "",
+        userStation: joinData.userStation ?? "",
+      };
+
+      joinMutation(sendData);
     };
 
     return {

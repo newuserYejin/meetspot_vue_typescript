@@ -79,3 +79,11 @@ export interface LoginRequest {
   userId: string;
   userPw: string;
 }
+
+// 회원가입
+export interface JoinRequet {
+  userId: string;
+  userPw: string;
+  userName: string;
+  userStation: string;
+}
