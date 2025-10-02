@@ -73,3 +73,9 @@ export interface CalStationPathResult {
   station_cnt: number;
   exChange_cnt: number;
 }
+
+// 로그인
+export interface LoginRequest {
+  userId: string;
+  userPw: string;
+}

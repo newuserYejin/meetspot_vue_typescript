@@ -72,6 +72,8 @@ export default {
 
     const updateSidebar = () => {
       console.log("updateSidebar 실행 : ", todayResult.value);
+
+      console.log("route.path : ", route.path);
       if (route.path === "/bestResult" || todayResult.value != "") {
         // /bestResult에서는 todayResult값이 역 이름
         currentStation.value = {
@@ -81,9 +83,12 @@ export default {
           tags: [""],
         };
       } else {
-        currentStation.value = getRandomStation();
+        if (route.path === "/") {
+          currentStation.value = getRandomStation();
+        }
       }
     };
+
     updateSidebar();
 
     // todayResult, 라우트 path가 변하면 updateSidebar 다시 실행

@@ -177,10 +177,9 @@
 </template>
 
 <script lang="ts">
-import router from "@/routes";
 import { useFriendStore } from "@/stores/useFriendStore";
 import { usePlaceStore } from "@/stores/usePlaceStore";
-import { useTodayResultStore } from "@/stores/useTodayResultStore";
+import { useRouter } from "vue-router";
 
 export default {
   name: "",
@@ -190,6 +189,8 @@ export default {
     const placeStore = usePlaceStore();
     const { todayFriendList, deleteFriend } = friendStore;
     const { selectedPlaceList, deletePlace } = placeStore;
+
+    const router = useRouter();
 
     const goResult = async () => {
       router.push("/bestResult");

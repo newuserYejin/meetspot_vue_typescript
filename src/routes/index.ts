@@ -17,6 +17,16 @@ const routes: RouteRecordRaw[] = [
         name: "best result page",
         component: () => import("@pages/ResultPage.vue"),
       },
+      {
+        path: "/login",
+        name: "LoginPage",
+        component: () => import("@pages/LoginPage.vue"),
+      },
+      {
+        path: "/join",
+        name: "JoinPage",
+        component: () => import("@pages/JoinPage.vue"),
+      },
     ],
   },
 ];
