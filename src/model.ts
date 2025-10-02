@@ -28,6 +28,8 @@ export interface StationData {
   real_cd?: string; // 친구용으로만 사용
   station_nm: string;
   fr_code?: string;
+  X?: number;
+  Y?: number;
 }
 
 export interface StationResponse {

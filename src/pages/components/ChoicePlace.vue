@@ -89,7 +89,7 @@ input[type="radio"]:checked + label {
                   "
                 >
                   <div
-                    class="flex flex-wrap justify-center gap-[3px] font-bold text-[0.8rem] break-words"
+                    class="flex flex-wrap justify-center gap-[3px] font-bold text-[0.9rem] break-words"
                   >
                     <span>{{ item.name }}</span>
                     <span
